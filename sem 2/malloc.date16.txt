@@ -1,0 +1,73 @@
+#include<stdio.h>
+void main()
+{
+	int a=7,b=8;
+	int *p,*q;
+	p=&a;
+	q=&b;
+	printf("sum=%d",(*p+*q));
+	
+	
+}
+#include<stdio.h>
+#include<stdlib.h>
+void main()
+{
+	int n,*p,sum=0,i;
+	printf("enter the no of values two be added");
+	scanf("%d",&n);
+	p=(int *)malloc(n*(sizeof(int)));
+	printf("enter the no.to be added");
+	for(i=0;i<=n-1;i++)
+	{
+		scanf("%d",p+i);
+		sum=sum+(*(p+i));
+	}
+	free(p);
+	printf("sum=%d",sum);	
+}
+#include<stdio.h>
+#include<stdlib.h>
+void main()
+{
+	int n,*p,sum=0,i;
+	printf("enter the no of values two be added");
+	scanf("%d",&n);
+	p=(int *)malloc(sizeof(int));
+	printf("enter the no.to be added");
+	for(i=0;i<=n-1;i++)
+	{
+		scanf("%d",p);
+		sum=sum+(*p);
+	}
+	free(p);
+	printf("sum=%d",sum);	
+}
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+void main()
+{
+	int n,*p,sum,i;
+	char r[10],*j[30];
+	printf("enter the no of students");
+	scanf("%d",&n);
+	p=(int *)malloc(n*(sizeof(int)));
+	for(i=0;i<=n-1;i++)
+	{
+		printf("enter the roll no. of %dth sudent",i+1);
+		scanf("%d",p+i);
+		printf("enter the name");
+		scanf("%s",r);
+		j[i]=(char *)malloc(strlen(r)*sizeof(char));
+		j[i]=r;
+		
+	}
+	for(i=0;i<=n-1;i++)
+	{
+		printf(" student %d =%s,%d",i+1,j[i],*(p+i));
+	}
+	free(p);
+	for(i=0;i<=n-1;i++)	
+	free (j[i]);
+}
