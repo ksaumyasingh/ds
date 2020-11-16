@@ -33,40 +33,39 @@ node* insert(node *root,int element)
 }
 node *searchelement(node *root,int element)
 {
-	if(root==NULL)
-		return root;
-	else
+	node *ptr=NULL;
+	if(root->key==element)
 	{
-		searchelement(root->left,element);
-		if(root && root->key==element)
-			return root;
-		searchelement(root->right,element);
+		ptr=root;
+		return ptr;
 	}
+	else if(root->key > element)
+		    ptr=searchelement(root->left,element);
+		else if(root->key < element)
+				ptr=searchelement(root->right,element);
+	return ptr;
 }
-node *searchparent(node *root,int element)
+node *searchparent(node *root,node *delNode)
 {
 	if(root==NULL)
 		return root;
 	else
 	{
-		searchparent(root->left,element);
-		if((root && root->left && (root->left)->key==element)||(root && root->right && (root->right)->key==element))
+		if(root->left==delNode||root->right==delNode)
 			return root;
-		searchparent(root->right,element);
+		else if(root->key>delNode->key)
+				searchparent(root->left,delNode);
+			else if(root->key<delNode->key)
+					searchparent(root->right,delNode);
 	}
 }
-node *successor(node *parent,int element)
+node *successor(node *root,node *delNode)
 {
-	if(!parent)
-		return NULL;
-	if(parent->left==NULL)
-		return parent;
-	else
-	{
-		while(parent->right && ((parent->right)->left)!=NULL)
-			parent->right=(parent->right)->left;
-		return parent->right;
-	}
+	node *temp=NULL;
+	temp=delNode->right;
+	while(temp->left!=NULL)
+		temp=temp->left;
+	return temp;
 }
 void inorderTraversal(node * root)
 {
@@ -81,11 +80,11 @@ void inorderTraversal(node * root)
 }
 node * deletion(node *root,int element)	
 {
-	node *delNode,*delParent,*successorNode,*successorParent;
+	node *delNode=NULL,*delParent=NULL,*successorNode=NULL,*successorParent=NULL,*temp=NULL;
 	printf("\ngoing to search element\n");
 	delNode=searchelement(root,element);
 	printf("\n delNode=%d",delNode->key);
-	delParent=searchparent(root,element);
+	delParent=searchparent(root,delNode);
 	printf("delParent=%d",delParent->key);
 	if(delNode==NULL)
 		printf("element not present in tree");
@@ -93,53 +92,57 @@ node * deletion(node *root,int element)
 	{
 		if(delNode->right==NULL && delNode->left==NULL)
 		{
-			if((delParent)->left && ((delParent)->left)->key==element)
+			if(delParent->left==delNode)
 				delParent->left==NULL;
 			else
 				delParent->right==NULL;
-			free(delNode);
 		}
-		else if((delNode->left)->left==NULL && (delNode->left)->right==NULL)
-			{
-				if(((delParent)->left)->key==element)
-					delParent->left==delNode->left;
-				else
-					delParent->right==delNode->left;
-				free(delNode);
-			}
-			else if((delNode->right)->left==NULL && (delNode->right)->right==NULL)
+		else if(delNode->left != NULL && delNode->right == NULL)
+		{
+			if(delParent->left==delNode)
+				delParent->left=delNode->left;
+			else if(delParent->right==delNode)
+					delParent->right=delNode->left;
+		}
+			else if(delNode->left == NULL && delNode->right != NULL)
 				{
-					if(((delParent)->left)->key==element)
-						delParent->left==delNode->right;
+					if(delParent->left==delNode)
+						delParent->left=delNode->right;
 					else
-						delParent->right==delNode->right;
-					free(delNode);
+						delParent->right=delNode->right;
 				}
 				else
 				{
-					successorNode=successor(delNode,element);
-					if(((delParent)->left)->key==element)
-						delParent->left==successorNode;
-					else
-						delParent->right==successorNode;
-					if(successorNode->right!=NULL)
+					successorNode=successor(root,delNode);
+					printf("successor %d",successorNode->key);
+					if(successorNode->right != NULL)
 					{
-						successorParent=searchparent(root,successorNode->key);
-						if((successorParent->left)->key==successorNode->key)
-							successorParent->left==successorNode->right;
-						else
-							successorParent->right==successorNode->right;
+						delNode->key = successorNode->key;
+						successorNode->key = successorNode->right->key;
+						temp= successorNode->right;
+						successorNode->right= NULL;
+						free(temp);
 					}
-					successorNode->left=delNode->left;
-					successorNode->right=delNode->right;
-					free(delNode);
-				}		
+					else
+					{
+						
+						successorParent= searchparent(root, successorNode);
+						delNode->key = successorNode->key;
+						if(successorNode != delNode->right)
+							successorParent->left = NULL;
+						else
+							delNode->right = successorNode->right;
+						free(successorNode);
+					}
+
+				}
 	}
 	return root;
 		
 }
 
-node* inputData(node * root){
+/*node* inputData(node * root)
+{
 
 		root=insert(root,5);
 		root=insert(root,3);
@@ -150,13 +153,12 @@ node* inputData(node * root){
 		root=insert(root,8);
 		return root;
 
-}
+}*/
 void main()
 {
 	node *root=NULL;
-	root = inputData(root);
-	
-	/*int element,choice;
+	//root = inputData(root);
+	int element,choice;
 	do
 	{
 		printf("enter key");
@@ -165,14 +167,13 @@ void main()
 		printf("press 1 to enter more else 0 ");
 		scanf("%d",&choice);
 	}
-	while(choice);*/
+	while(choice);
 	
 	inorderTraversal(root);
 	printf("\n enter element to be deleted");
-	
-	/*scanf("%d",element);
-	root=deletion(root,element);	*/
-	
-	root=deletion(root,8);
-	//inorderTraversal(root);
+	scanf("%d",&element);
+	root=deletion(root,element);
+	//root=deletion(root,8);
+	printf("\n tree after deletion\n");
+	inorderTraversal(root);
 }
