@@ -6,6 +6,19 @@ typedef struct node
 	int data;
 	struct node * next;
 }node;
+void printList(node *head)
+{
+	node * traverse;
+	traverse=head;
+	
+	printf("linked list\n");
+	do
+	{
+		printf("%d\n",traverse->data);
+		traverse=traverse->next;	
+	}
+	while(traverse!=head);
+}
 void main()
 {
 	node *newnode,*head,*traverse;
@@ -20,7 +33,7 @@ void main()
 			case 1:
 				newnode=(node *)malloc(sizeof(node));
 				printf("enter the data\n");
-				scanf("%d",&newnode->next);
+				scanf("%d",&newnode->data);
 				newnode->next=head;
 				if(head==NULL)
 				{
@@ -39,6 +52,8 @@ void main()
 		
 	}
 	while(choice==1);
+	printList(head);
 
 }
+
 

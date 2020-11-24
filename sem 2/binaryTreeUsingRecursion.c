@@ -10,9 +10,11 @@ node * create();
 void inorder(node *);
 void postorder(node *);
 void preorder(node *);
+void searchElement(node *,char);
 void main()
 {
 	node *root=NULL;
+	char ele;
 	root=create();
 	printf("\n though inorder traversal \n");
 	inorder(root);
@@ -20,6 +22,9 @@ void main()
 	preorder(root);
     printf("\n though postorder traversal\n");
 	postorder(root);
+	printf("\nenter element to be searched");
+	scanf(" %c",&ele);
+	searchElement(root,ele);
 
 }
 node* create()
@@ -40,6 +45,20 @@ node* create()
 	if(choice)
 			newnode->right=create();
 	return newnode;
+}
+void searchElement(node * root,char ele)
+{
+	if(root==NULL)
+		return;
+	else
+	{
+		searchElement(root->left,ele);
+		if(root->data == ele)
+		{
+			printf("\nelement is present");
+		}
+		searchElement(root->right,ele);
+	}
 }
 void inorder(node * root)
 {
