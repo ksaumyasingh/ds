@@ -1,19 +1,33 @@
 #include<stdio.h>
 #include<conio.h>
+int linearSearch(int [],int n);
 void main()
 {
-	int i,num,n,a[90];
+	int i,n,array[90],choice,flag=0;
 	printf("enter the no. of elements to be entered\n");
 	scanf("%d",&n);
 	printf("enter a array of %d elements\n",n);
 	for(i=0;i<=n-1;i++)
-		scanf("%d",&a[i]);
+		scanf("%d",&array[i]);
+	flag=linearSearch(array,n);
+	if(flag)
+		printf("element found at position %d \n",flag);
+	else
+		printf("element not present\n");
+}
+int linearSearch(int array[],int n)
+{
+	int num,i;
 	printf("enter a number to  be checked\n");
 	scanf("%d",&num);
 	for(i=0;i<=n-1;i++)
-		if(num==a[i])
+	{
+		if(num==array[i])
 		{
-			printf("element found at position %d \n",i+1);
-		    return;
+		    return (i+1);
 		}
-}		
+	}
+	return 0;
+}
+
+
