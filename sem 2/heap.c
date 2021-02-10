@@ -43,7 +43,10 @@ int deletion(int heap[],int size)
 	}
 	heap[1]=heap[i];
 	printf("\nheap[1]=%d",heap[1]);
-	i=1;
+	heap[0]=heap[0]-1;
+	last=heap[0];
+	heap[last]=item;
+	i=last;
 	while(flag==1)
 	{
 		present=i+1;

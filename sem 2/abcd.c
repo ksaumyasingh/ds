@@ -3,18 +3,18 @@
 #define MAX_SIZE 32
 
 char store[MAX_SIZE];
-int tos1, tos2;
+int top1, top2;
 
 void initStack ( int option )
 {
    int i;
 
-   if (option == 0) { tos1 = -2; tos2 = -1; }
-   else { tos1 = -1; tos2 = MAX_SIZE; }
+   if (option == 0) { top1 = -2; top2 = -1; }
+   else { top1 = -1; top2 = MAX_SIZE; }
    for (i=0; i<MAX_SIZE; ++i) store[i] = '_';
 }
 
-void printStack ( )
+void printStack ()
 {
    int i;
 
@@ -26,36 +26,36 @@ void pushStack ( int which , char what , int option )
 {
    if (option == 0) {
       if (which == 1) {
-         tos1 += 2;
-         if (tos1 >= MAX_SIZE) {
-            fprintf(stderr,"Error: Overflow in Stack 1.\n");
+         top1 += 2;
+         if (top1 >= MAX_SIZE) {
+            fprintf(stderr,"Overflow in Stack 1.\n");
             exit(1);
-         } else store[tos1] = what;
+         } else store[top1] = what;
       } else if (which == 2) {
-         tos2 += 2;
-         if (tos2 >= MAX_SIZE) {
+         top2 += 2;
+         if (top2 >= MAX_SIZE) {
             fprintf(stderr,"Error: Overflow in Stack 2.\n");
             exit(1);
-         } else store[tos2] = what;
+         } else store[top2] = what;
       } else {
-         fprintf(stderr,"Error: Undefined stack identifier.\n");
+         fprintf(stderr,"Undefined stack identifier.\n");
          exit(1);
       }
    } else {
       if (which == 1) {
-         ++tos1;
-         if (tos1 >= tos2) {
-            fprintf(stderr,"Error: Overflow in stack.\n");
+         ++top1;
+         if (top1 >= top2) {
+            fprintf(stderr,"Overflow in stack.\n");
             exit(1);
-         } else store[tos1] = what;
+         } else store[top1] = what;
       } else if (which == 2) {
-         --tos2;
-         if (tos1 >= tos2) {
-            fprintf(stderr,"Error: Overflow in stack.\n");
+         --top2;
+         if (top1 >= top2) {
+            fprintf(stderr,"Overflow in stack.\n");
             exit(1);
-         } else store[tos2] = what;
+         } else store[top2] = what;
       } else {
-         fprintf(stderr,"Error: Undefined stack identifier.\n");
+         fprintf(stderr,"Undefined stack identifier.\n");
          exit(1);
       }
    }
@@ -65,20 +65,20 @@ void popStack ( int which , int option )
 {
    if (option == 0) {
       if (which == 1) {
-         if (tos1 < 0) {
-            fprintf(stderr,"Error: Underflow in Stack 1.\n");
+         if (top1 < 0) {
+            fprintf(stderr,"Underflow in Stack 1.\n");
             exit(1);
          } else {
-            store[tos1] = '_';
-            tos1 -= 2;
+            store[top1] = '_';
+            top1 -= 2;
          }
       } else if (which == 2) {
-         if (tos2 < 0) {
-            fprintf(stderr,"Error: Underflow in Stack 2.\n");
+         if (top2 < 0) {
+            fprintf(stderr,"Underflow in Stack 2.\n");
             exit(1);
          } else {
-            store[tos2] = '_';
-            tos2 -= 2;
+            store[top2] = '_';
+            top2 -= 2;
          }
       } else {
          fprintf(stderr,"Error: Undefined stack identifier.\n");
@@ -86,20 +86,20 @@ void popStack ( int which , int option )
       }
    } else {
       if (which == 1) {
-         if (tos1 < 0) {
-            fprintf(stderr,"Error: Underflow in Stack 1.\n");
+         if (top1 < 0) {
+            fprintf(stderr,"Underflow in Stack 1.\n");
             exit(1);
          } else {
-            store[tos1] = '_';
-            --tos1;
+            store[top1] = '_';
+            --top1;
          }
       } else if (which == 2) {
-         if (tos2 >= MAX_SIZE) {
-            fprintf(stderr,"Error: Underflow in Stack 2.\n");
+         if (top2 >= MAX_SIZE) {
+            fprintf(stderr,"Underflow in Stack 2.\n");
             exit(1);
          } else {
-            store[tos2] = '_';
-            ++tos2;
+            store[top2] = '_';
+            ++top2;
          }
       } else {
          fprintf(stderr,"Error: Undefined stack identifier.\n");

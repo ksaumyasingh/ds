@@ -14,9 +14,12 @@ void selectionSort(int a[],int n)
 				p=j;
 			}
 		}
-		temp=a[i];
-		a[i]=a[p];
-		a[p]=temp;
+		if(p!=i)
+		{
+			temp=a[i];
+			a[i]=a[p];
+			a[p]=temp;
+		}
 	}
 }
 void main()
@@ -27,22 +30,7 @@ void main()
 	printf("enter the elements\n");	
 	for(i=0;i<=n-1;i++)
 		scanf("%d",&a[i]);
-	/*for(i=0;i<=n-1;i++)
-	{
-		m=a[i];
-		p=i;
-		for(j=i;j<=n-1;j++)
-		{
-			if(m>a[j])
-			{
-				m=a[j];
-				p=j;
-			}
-		}
-		temp=a[i];
-		a[i]=a[p];
-		a[p]=temp;
-	}*/
+	
 	selectionSort(a,n);
 	printf("sorted list is\n");
     for(i=0;i<=n-1;i++)
